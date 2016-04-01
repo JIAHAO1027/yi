@@ -1,0 +1,13 @@
+	(1)
+VARIABLES	Adj Model 1
+	
+diff	-18.64*
+	(10.32)
+Constant	106.2***
+	(36.99)
+	
+Observations	297
+Number of item_id	67
+R-squared	0.036
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	
