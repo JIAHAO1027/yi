@@ -1,0 +1,1 @@
+a=read.csv(file="C:\\Users\\bai\\Desktop\\CC06.csv",sep="\t")
