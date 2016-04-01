@@ -1,0 +1,19 @@
+	(1)	(2)	(3)	(4)
+VARIABLES	premrel	premrel	premrel	premrel
+				
+diff	16.48***	15.79***	14.62***	12.29**
+	(4.319)	(4.645)	(5.183)	(5.474)
+cc		14.29	16.43	19.17
+		(14.58)	(15.43)	(15.41)
+uv			35.26	36.02
+			(50.27)	(49.84)
+xb				36.19
+				(47.88)
+Constant	18.22	9.862	6.113	5.997
+	(24.30)	(21.62)	(21.12)	(21.35)
+				
+Observations	352	352	352	352
+R-squared	0.132	0.133	0.137	0.141
+Number of item_id	67	67	67	67
+Robust standard errors in parentheses				
+*** p<0.01, ** p<0.05, * p<0.1				

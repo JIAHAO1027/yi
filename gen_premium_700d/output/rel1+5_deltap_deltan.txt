@@ -1,0 +1,15 @@
+	(1)	(2)	(3)	(4)
+VARIABLES	premrel	premrel	premrel	premrel
+				
+diff	7.381**	5.304*	15.80**	2.391
+	(3.394)	(2.870)	(7.398)	(4.584)
+bundle_index2		8.234***	7.073**	8.127***
+		(3.149)	(2.712)	(2.971)
+Constant	42.59***	15.45	-5.089	18.53
+	(15.58)	(17.20)	(23.70)	(19.07)
+				
+Observations	352	352	207	288
+R-squared	0.024	0.047	0.117	0.053
+Number of item_id	67	67	59	64
+Robust standard errors in parentheses				
+*** p<0.01, ** p<0.05, * p<0.1				

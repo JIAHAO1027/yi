@@ -1,0 +1,306 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1\log_rel1.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}16 Mar 2016, 09:58:28
+{txt}
+{com}. **updated
+. 
+. 
+. *updateme by replacing all "rel1" w corresponding keyword
+. 
+. xtset item_id
+{txt}{col 8}panel variable:  {res}item_id (unbalanced)
+{txt}
+{com}. xtreg premrel diff, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.1317                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0466                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.0626                                        {txt}max = {res}        7
+
+                                                {txt}F({res}1{txt},{res}66{txt})            = {res}    14.56
+{txt}corr(u_i, Xb)  = {res}-0.1976                        {txt}Prob > F           =    {res}0.0003
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     premrel{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}diff {c |}{col 14}{res}{space 2} 16.48079{col 26}{space 2} 4.319439{col 37}{space 1}    3.82{col 46}{space 3}0.000{col 54}{space 4} 7.856755{col 67}{space 3} 25.10483
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 18.21795{col 26}{space 2} 24.29685{col 37}{space 1}    0.75{col 46}{space 3}0.456{col 54}{space 4}-30.29227{col 67}{space 3} 66.72817
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 117.31483
+     {txt}sigma_e {c |} {res} 106.88991
+         {txt}rho {c |} {res}   .546397{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}.         outreg2 using rel1_delp_deln_try.tex, tex(frag) replace //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_delp_deln_try.tex"'"':rel1_delp_deln_try.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1"' :dir}{com} : {txt}{stata `"seeout using "rel1_delp_deln_try.txt""':seeout}
+
+{com}.         *sjlog using rel1_delp_deln_try, replace
+.         xtreg premrel diff cc, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.1335                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0489                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.0652                                        {txt}max = {res}        7
+
+                                                {txt}F({res}2{txt},{res}66{txt})            = {res}    12.07
+{txt}corr(u_i, Xb)  = {res}-0.1832                        {txt}Prob > F           =    {res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     premrel{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}diff {c |}{col 14}{res}{space 2} 15.79379{col 26}{space 2} 4.644535{col 37}{space 1}    3.40{col 46}{space 3}0.001{col 54}{space 4} 6.520681{col 67}{space 3} 25.06691
+{txt}{space 10}cc {c |}{col 14}{res}{space 2} 14.29062{col 26}{space 2} 14.57619{col 37}{space 1}    0.98{col 46}{space 3}0.330{col 54}{space 4}-14.81167{col 67}{space 3} 43.39291
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 9.862213{col 26}{space 2} 21.61599{col 37}{space 1}    0.46{col 46}{space 3}0.650{col 54}{space 4} -33.2955{col 67}{space 3} 53.01993
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 116.78629
+     {txt}sigma_e {c |} {res} 106.96766
+         {txt}rho {c |} {res} .54379704{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}.         outreg2 using rel1_delp_deln_try.tex, tex(frag) append //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_delp_deln_try.tex"'"':rel1_delp_deln_try.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1"' :dir}{com} : {txt}{stata `"seeout using "rel1_delp_deln_try.txt""':seeout}
+
+{com}.         xtreg premrel diff cc uv, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.1370                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0652                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.0811                                        {txt}max = {res}        7
+
+                                                {txt}F({res}3{txt},{res}66{txt})            = {res}     8.58
+{txt}corr(u_i, Xb)  = {res}-0.1904                        {txt}Prob > F           =    {res}0.0001
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     premrel{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}diff {c |}{col 14}{res}{space 2} 14.62074{col 26}{space 2} 5.182752{col 37}{space 1}    2.82{col 46}{space 3}0.006{col 54}{space 4} 4.273043{col 67}{space 3} 24.96844
+{txt}{space 10}cc {c |}{col 14}{res}{space 2} 16.43389{col 26}{space 2} 15.42827{col 37}{space 1}    1.07{col 46}{space 3}0.291{col 54}{space 4}-14.36965{col 67}{space 3} 47.23743
+{txt}{space 10}uv {c |}{col 14}{res}{space 2}  35.2605{col 26}{space 2} 50.27338{col 37}{space 1}    0.70{col 46}{space 3}0.486{col 54}{space 4}-65.11354{col 67}{space 3} 135.6345
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 6.113298{col 26}{space 2} 21.11532{col 37}{space 1}    0.29{col 46}{space 3}0.773{col 54}{space 4} -36.0448{col 67}{space 3} 48.27139
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 116.27397
+     {txt}sigma_e {c |} {res} 106.93959
+         {txt}rho {c |} {res} .54174514{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}.         outreg2 using rel1_delp_deln_try.tex, tex(frag) append //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_delp_deln_try.tex"'"':rel1_delp_deln_try.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1"' :dir}{com} : {txt}{stata `"seeout using "rel1_delp_deln_try.txt""':seeout}
+
+{com}.         xtreg premrel diff cc uv xb, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.1411                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0459                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.0635                                        {txt}max = {res}        7
+
+                                                {txt}F({res}4{txt},{res}66{txt})            = {res}     6.23
+{txt}corr(u_i, Xb)  = {res}-0.2597                        {txt}Prob > F           =    {res}0.0003
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     premrel{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}diff {c |}{col 14}{res}{space 2} 12.29186{col 26}{space 2} 5.474114{col 37}{space 1}    2.25{col 46}{space 3}0.028{col 54}{space 4} 1.362437{col 67}{space 3} 23.22128
+{txt}{space 10}cc {c |}{col 14}{res}{space 2}  19.1709{col 26}{space 2} 15.41044{col 37}{space 1}    1.24{col 46}{space 3}0.218{col 54}{space 4}-11.59703{col 67}{space 3} 49.93884
+{txt}{space 10}uv {c |}{col 14}{res}{space 2} 36.01643{col 26}{space 2} 49.83953{col 37}{space 1}    0.72{col 46}{space 3}0.472{col 54}{space 4} -63.4914{col 67}{space 3} 135.5243
+{txt}{space 10}xb {c |}{col 14}{res}{space 2} 36.19358{col 26}{space 2} 47.88445{col 37}{space 1}    0.76{col 46}{space 3}0.452{col 54}{space 4}-59.41081{col 67}{space 3}  131.798
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 5.996702{col 26}{space 2} 21.34985{col 37}{space 1}    0.28{col 46}{space 3}0.780{col 54}{space 4}-36.62965{col 67}{space 3} 48.62305
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 119.37482
+     {txt}sigma_e {c |} {res} 106.87533
+         {txt}rho {c |} {res} .55507819{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}.         outreg2 using rel1_delp_deln_try.tex, tex(frag) append //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_delp_deln_try.tex"'"':rel1_delp_deln_try.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1"' :dir}{com} : {txt}{stata `"seeout using "rel1_delp_deln_try.txt""':seeout}
+
+{com}. xtreg premrel diff bundle_index2 cc uv, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.3385                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0336                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.1735                                        {txt}max = {res}        7
+
+                                                {txt}F({res}4{txt},{res}66{txt})            = {res}    29.85
+{txt}corr(u_i, Xb)  = {res}-0.0643                        {txt}Prob > F           =    {res}0.0000
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}      premrel{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}diff {c |}{col 15}{res}{space 2}-12.04294{col 27}{space 2} 5.700948{col 38}{space 1}   -2.11{col 47}{space 3}0.038{col 55}{space 4}-23.42525{col 68}{space 3}-.6606263
+{txt}bundle_index2 {c |}{col 15}{res}{space 2} 41.67121{col 27}{space 2} 4.671145{col 38}{space 1}    8.92{col 47}{space 3}0.000{col 55}{space 4} 32.34497{col 68}{space 3} 50.99745
+{txt}{space 11}cc {c |}{col 15}{res}{space 2} 34.85993{col 27}{space 2} 13.85379{col 38}{space 1}    2.52{col 47}{space 3}0.014{col 55}{space 4} 7.199944{col 68}{space 3} 62.51992
+{txt}{space 11}uv {c |}{col 15}{res}{space 2}    88.87{col 27}{space 2} 45.91284{col 38}{space 1}    1.94{col 47}{space 3}0.057{col 55}{space 4}-2.797954{col 68}{space 3} 180.5379
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2}-58.23165{col 27}{space 2} 21.46976{col 38}{space 1}   -2.71{col 47}{space 3}0.009{col 55}{space 4}-101.0974{col 68}{space 3}-15.36589
+{txt}{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+      sigma_u {c |} {res} 117.35088
+      {txt}sigma_e {c |} {res} 93.793223
+          {txt}rho {c |} {res} .61019967{txt}   (fraction of variance due to u_i)
+{hline 14}{c BT}{hline 64}
+
+{com}.         outreg2 using rel1_delp_deln.tex, replace //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_delp_deln.tex"'"':rel1_delp_deln.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1"' :dir}{com} : {txt}{stata `"seeout using "rel1_delp_deln.txt""':seeout}
+
+{com}. xtreg premrel diff bundle_index2 cc uv xb, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.3537                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0094                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.1379                                        {txt}max = {res}        7
+
+                                                {txt}F({res}5{txt},{res}66{txt})            = {res}    24.56
+{txt}corr(u_i, Xb)  = {res}-0.1516                        {txt}Prob > F           =    {res}0.0000
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}      premrel{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}diff {c |}{col 15}{res}{space 2}-17.53489{col 27}{space 2} 6.413006{col 38}{space 1}   -2.73{col 47}{space 3}0.008{col 55}{space 4}-30.33887{col 68}{space 3}-4.730906
+{txt}bundle_index2 {c |}{col 15}{res}{space 2} 43.17386{col 27}{space 2} 4.797861{col 38}{space 1}    9.00{col 47}{space 3}0.000{col 55}{space 4} 33.59462{col 68}{space 3}  52.7531
+{txt}{space 11}cc {c |}{col 15}{res}{space 2} 40.84878{col 27}{space 2} 13.90135{col 38}{space 1}    2.94{col 47}{space 3}0.005{col 55}{space 4} 13.09384{col 68}{space 3} 68.60373
+{txt}{space 11}uv {c |}{col 15}{res}{space 2} 92.27367{col 27}{space 2} 45.17871{col 38}{space 1}    2.04{col 47}{space 3}0.045{col 55}{space 4} 2.071475{col 68}{space 3} 182.4759
+{txt}{space 11}xb {c |}{col 15}{res}{space 2} 70.40883{col 27}{space 2} 47.25082{col 38}{space 1}    1.49{col 47}{space 3}0.141{col 55}{space 4}-23.93049{col 68}{space 3} 164.7481
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2}-60.77873{col 27}{space 2} 21.99409{col 38}{space 1}   -2.76{col 47}{space 3}0.007{col 55}{space 4}-104.6914{col 68}{space 3} -16.8661
+{txt}{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+      sigma_u {c |} {res} 122.12064
+      {txt}sigma_e {c |} {res} 92.872706
+          {txt}rho {c |} {res}  .6335691{txt}   (fraction of variance due to u_i)
+{hline 14}{c BT}{hline 64}
+
+{com}.         outreg2 using rel1_delp_deln.tex, tex(frag) append //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_delp_deln.tex"'"':rel1_delp_deln.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1"' :dir}{com} : {txt}{stata `"seeout using "rel1_delp_deln.txt""':seeout}
+
+{com}. 
+. xtreg bundle_index2 diff cc, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.5760                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0001                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.1735                                        {txt}max = {res}        7
+
+                                                {txt}F({res}2{txt},{res}66{txt})            = {res}   149.70
+{txt}corr(u_i, Xb)  = {res}-0.7213                        {txt}Prob > F           =    {res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}bundle_ind~2{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}diff {c |}{col 14}{res}{space 2} .5970593{col 26}{space 2} .0360491{col 37}{space 1}   16.56{col 46}{space 3}0.000{col 54}{space 4} .5250849{col 67}{space 3} .6690337
+{txt}{space 10}cc {c |}{col 14}{res}{space 2} -.363979{col 26}{space 2} .1537856{col 37}{space 1}   -2.37{col 46}{space 3}0.021{col 54}{space 4}-.6710218{col 67}{space 3}-.0569362
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  1.40733{col 26}{space 2} .1900916{col 37}{space 1}    7.40{col 46}{space 3}0.000{col 54}{space 4}   1.0278{col 67}{space 3}  1.78686
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 1.9994532
+     {txt}sigma_e {c |} {res} 1.2625356
+         {txt}rho {c |} {res} .71494088{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. outreg2 using rel1_idx_deln.tex,  tex(frag) replace //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_idx_deln.tex"'"':rel1_idx_deln.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1"' :dir}{com} : {txt}{stata `"seeout using "rel1_idx_deln.txt""':seeout}
+
+{com}. xtreg bundle_index2 diff cc uv, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.5925                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0111                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.2269                                        {txt}max = {res}        7
+
+                                                {txt}F({res}3{txt},{res}66{txt})            = {res}   105.48
+{txt}corr(u_i, Xb)  = {res}-0.6834                        {txt}Prob > F           =    {res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}bundle_ind~2{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}diff {c |}{col 14}{res}{space 2} .6398585{col 26}{space 2} .0403375{col 37}{space 1}   15.86{col 46}{space 3}0.000{col 54}{space 4}  .559322{col 67}{space 3}  .720395
+{txt}{space 10}cc {c |}{col 14}{res}{space 2}-.4421767{col 26}{space 2} .1537131{col 37}{space 1}   -2.88{col 46}{space 3}0.005{col 54}{space 4}-.7490748{col 67}{space 3}-.1352786
+{txt}{space 10}uv {c |}{col 14}{res}{space 2}-1.286488{col 26}{space 2} .3774877{col 37}{space 1}   -3.41{col 46}{space 3}0.001{col 54}{space 4}-2.040166{col 67}{space 3}-.5328091
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  1.54411{col 26}{space 2} .1779412{col 37}{space 1}    8.68{col 46}{space 3}0.000{col 54}{space 4} 1.188839{col 67}{space 3} 1.899382
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 1.8142716
+     {txt}sigma_e {c |} {res} 1.2400178
+         {txt}rho {c |} {res} .68159611{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. outreg2 using rel1_idx_deln.tex, tex(frag) append //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_idx_deln.tex"'"':rel1_idx_deln.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1"' :dir}{com} : {txt}{stata `"seeout using "rel1_idx_deln.txt""':seeout}
+
+{com}. xtreg bundle_index2 diff cc uv xb, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.5994                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0121                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.2416                                        {txt}max = {res}        7
+
+                                                {txt}F({res}4{txt},{res}66{txt})            = {res}    74.95
+{txt}corr(u_i, Xb)  = {res}-0.6666                        {txt}Prob > F           =    {res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}bundle_ind~2{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}diff {c |}{col 14}{res}{space 2} .6908519{col 26}{space 2} .0573678{col 37}{space 1}   12.04{col 46}{space 3}0.000{col 54}{space 4} .5763134{col 67}{space 3} .8053905
+{txt}{space 10}cc {c |}{col 14}{res}{space 2}-.5021066{col 26}{space 2} .1686938{col 37}{space 1}   -2.98{col 46}{space 3}0.004{col 54}{space 4}-.8389146{col 67}{space 3}-.1652986
+{txt}{space 10}uv {c |}{col 14}{res}{space 2} -1.30304{col 26}{space 2} .3780449{col 37}{space 1}   -3.45{col 46}{space 3}0.001{col 54}{space 4} -2.05783{col 67}{space 3}-.5482485
+{txt}{space 10}xb {c |}{col 14}{res}{space 2}-.7924991{col 26}{space 2} .3802736{col 37}{space 1}   -2.08{col 46}{space 3}0.041{col 54}{space 4} -1.55174{col 67}{space 3}-.0332583
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 1.546663{col 26}{space 2} .1762117{col 37}{space 1}    8.78{col 46}{space 3}0.000{col 54}{space 4} 1.194845{col 67}{space 3} 1.898481
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 1.7778469
+     {txt}sigma_e {c |} {res} 1.2316724
+         {txt}rho {c |} {res} .67569561{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. outreg2 using rel1_idx_deln.tex, tex(frag) append //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_idx_deln.tex"'"':rel1_idx_deln.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1"' :dir}{com} : {txt}{stata `"seeout using "rel1_idx_deln.txt""':seeout}
+
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\pres_rel1\log_rel1.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}16 Mar 2016, 09:58:29
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

@@ -1,0 +1,13 @@
+	(1)
+VARIABLES	Premium rel B1
+	
+diff	7.381**
+	(3.394)
+Constant	42.59***
+	(15.58)
+	
+Observations	352
+Number of item_id	67
+R-squared	0.024
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

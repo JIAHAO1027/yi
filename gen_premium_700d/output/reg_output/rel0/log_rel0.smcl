@@ -1,0 +1,81 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\rel0\log_rel0.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}15 Mar 2016, 16:18:59
+{txt}
+{com}. **updated
+. 
+. xtset item_id
+{txt}{col 8}panel variable:  {res}item_id (unbalanced)
+{txt}
+{com}. xtreg premium num_of_acc_rel bundle_index, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      421
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       69
+
+{txt}R-sq:  within  = {res}0.3617                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.1971                                        {txt}avg = {res}      6.1
+{txt}       overall = {res}0.2308                                        {txt}max = {res}        8
+
+                                                {txt}F({res}2{txt},{res}68{txt})            = {res}    37.55
+{txt}corr(u_i, Xb)  = {res}0.1075                         {txt}Prob > F           =    {res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:69} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     premium{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+num_of_acc~l {c |}{col 14}{res}{space 2}-12.10324{col 26}{space 2}  8.69019{col 37}{space 1}   -1.39{col 46}{space 3}0.168{col 54}{space 4}-29.44425{col 67}{space 3} 5.237763
+{txt}bundle_index {c |}{col 14}{res}{space 2} 41.26789{col 26}{space 2} 6.349827{col 37}{space 1}    6.50{col 46}{space 3}0.000{col 54}{space 4} 28.59701{col 67}{space 3} 53.93878
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 44.18267{col 26}{space 2} 104.3244{col 37}{space 1}    0.42{col 46}{space 3}0.673{col 54}{space 4}-163.9933{col 67}{space 3} 252.3587
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res}  174.1345
+     {txt}sigma_e {c |} {res} 96.573075
+         {txt}rho {c |} {res} .76477803{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}.         outreg2 using rel1_delp_deln.tex, append //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_delp_deln.tex"'"':rel1_delp_deln.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\rel0"' :dir}{com} : {txt}{stata `"seeout using "rel1_delp_deln.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\xin_chen\AppData\Local\Temp\STD04000000.tmp"
+{txt}
+{com}. xtreg premium num_of_acc_rel, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      421
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       69
+
+{txt}R-sq:  within  = {res}0.1346                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.1099                                        {txt}avg = {res}      6.1
+{txt}       overall = {res}0.0590                                        {txt}max = {res}        8
+
+                                                {txt}F({res}1{txt},{res}68{txt})            = {res}    14.49
+{txt}corr(u_i, Xb)  = {res}-0.6669                        {txt}Prob > F           =    {res}0.0003
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:69} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     premium{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+num_of_acc~l {c |}{col 14}{res}{space 2} 21.42143{col 26}{space 2} 5.628109{col 37}{space 1}    3.81{col 46}{space 3}0.000{col 54}{space 4} 10.19071{col 67}{space 3} 32.65214
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-266.9279{col 26}{space 2} 79.16785{col 37}{space 1}   -3.37{col 46}{space 3}0.001{col 54}{space 4}-424.9049{col 67}{space 3}-108.9509
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 248.63387
+     {txt}sigma_e {c |} {res} 112.28309
+         {txt}rho {c |} {res} .83060434{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\xin_chen\AppData\Local\Temp\STD04000000.tmp"
+{txt}
+{com}. * all chunks btw comments updateme and *updated shall be updated if you wish to run the code
+. cap log close
+{smcl}
+{com}{sf}{ul off}

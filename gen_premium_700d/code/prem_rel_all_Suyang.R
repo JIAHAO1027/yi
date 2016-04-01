@@ -1,0 +1,464 @@
+camera_name="700d"
+under_s = "_"
+
+library(DataComputing)
+library(lfe)
+####################################################fixme
+#setwd("C:/Users/xin_chen/Dropbox/urap_programming/yi/gen_premium_700d")
+#setwd("F:\\Dropbox\\urap_programming\\yi\\gen_premium_700d")
+#setwd("/Users/suyanglu/Dropbox/urap_programming/yi/gen_premium_700d")
+
+#updateme
+filename_list="lst_700D_Yi_Feb222016_giftindex_price_corrected_juexiao_0306.csv"
+filename_dict="dict_700d_750d_Feb082016_zemin0309.csv"
+filename_regression="regresstion_data.csv"
+df_input="transec_700d_cleaned_20160215.csv"
+file_name_category="good_format_dictIdx_table_pr_fk_20160314.csv"
+filename_regression="regresstion_data.csv"
+
+setwd("./input")
+df_input = read.csv(df_input,head=TRUE)
+Camera<-read.csv(filename_list,stringsAsFactors = FALSE)
+Price<-read.csv(filename_dict,encoding = "UTF-8")%>%select(index_final,Avg..Price.Esitimate)
+regression=read.csv(filename_regression,stringsAsFactors = FALSE)
+Price$Avg..Price.Esitimate<-as.character(Price$Avg..Price.Esitimate)
+colnames(Camera)[colnames(Camera)=="ItemID.LIsting_id."] <- "item_id"
+Camera=Camera%>%filter(item_id!=45410114111)	
+
+#updateme
+df.category=read.csv(file_name_category,encoding="UTF-8",stringsAsFactors = FALSE)
+
+
+#Genarate delta n
+df=Camera%>%
+  select(item_id,bundle_index,dict_yi_index)%>%
+  filter(bundle_index!=0)
+
+##i,j, k index the row numbers for columns bundle_index1, bundle_index2, dict_yi_index resp.
+df.deltan=data.frame()
+i=1
+while(i<=length(df$item_id))
+{
+  count_n=df%>%
+    filter(item_id==item_id[i]&bundle_index==bundle_index[i])%>%
+    tally()
+  n=count_n[1,1]
+  j=i+n
+  a=as.numeric(c(df$item_id[i],df$bundle_index[i],df$bundle_index[j],n))
+  while(df$item_id[j]==df$item_id[i]&j<=length(df$item_id))
+  {
+    t=0
+    for(k in i:(i+n-1))
+      if(df$dict_yi_index[j]==df$dict_yi_index[k]) t=t+1
+    if(t==0)
+      a=a+c(0,0,0,1)
+    else a=a+c(0,0,0,-1)
+    if(df$bundle_index[j]!=df$bundle_index[j+1]|(j+1)>length(df$item_id))
+    {
+      df.deltan=rbind(df.deltan,a)
+      a=as.numeric(c(df$item_id[i],df$bundle_index[i],df$bundle_index[j+1],n))
+    }
+    j=j+1
+  }
+  i=i+n
+}
+colnames(df.deltan)=c("item_id","bundle_index1","bundle_index2","diff")
+
+
+
+#Set a benchmark as denominator for "prem_perc"
+Benchmark=Camera%>%
+  group_by(item_id)%>%
+  summarise(benchmark=first(bundle_price))
+
+#######Suyang#########
+
+Priceofbundle0<-Camera%>%select(item_id, bundle_index, bundle_price)%>%filter(bundle_index==0)%>%select(-bundle_index)
+colnames(Priceofbundle0)[colnames(Priceofbundle0)=="bundle_price"] <- "bundle_price_0"
+Priceofbundle1<-Camera%>%select(item_id, bundle_index, bundle_price)%>%filter(bundle_index==1)%>%select(-bundle_index)
+colnames(Priceofbundle1)[colnames(Priceofbundle1)=="bundle_price"] <- "bundle_price_1"
+
+# Set all "unknown" or lost Price = 0
+for(i in 1:length(Price$Avg..Price.Esitimate))
+  if(Price$Avg..Price.Esitimate[i]==""|
+     Price$Avg..Price.Esitimate[i]=="unknown"|
+     Price$Avg..Price.Esitimate[i]=="Unknown"|
+     is.na(Price$Avg..Price.Esitimate[i]))
+    Price$Avg..Price.Esitimate[i]=0
+
+
+
+#Generate premium and a lot of indicators
+Camera$dict_yi_index<-as.character(Camera$dict_yi_index)
+Price$index_final<-as.character(Price$index_final)
+Price$Avg..Price.Esitimate<-as.numeric(Price$Avg..Price.Esitimate)
+CameraWPrice<-Camera%>%left_join(Price,by=c("dict_yi_index"="index_final"))
+result<-CameraWPrice%>%
+  group_by(item_id,bundle_index)%>%
+  summarise(total=sum(Accessory_title!=""),
+            total_nofw=total-sum(as.vector(sapply('FW',grepl,dict_yi_index))),
+            nongift=sum(Accessory_title!=""&gift_or_not!=1),
+            nongift_nofw=sum(Accessory_title!=""&gift_or_not!=1&!(as.vector(sapply('FW',grepl,dict_yi_index)))),
+            branded=sum(Accessory_title!=""&is.na(brand)==FALSE),
+            branded_nofw=sum(Accessory_title!=""&is.na(brand)==FALSE&!(as.vector(sapply('FW',grepl,dict_yi_index)))),
+            num_of_yuanzhuang=sum(as.vector(sapply('????',grepl,Accessory_title))),
+            num_of_acc_no_price=sum(Avg..Price.Esitimate==0),
+            bundle_price=mean(bundle_price),
+            price_ref=sum(Avg..Price.Esitimate),
+            price_ref_adjgift=sum(Avg..Price.Esitimate*(1-gift_or_not)))
+result[is.na(result)]<-0
+result<-result%>%
+  mutate(bundle_add_on=bundle_price-first(bundle_price),
+         price_ref_rel=price_ref-first(price_ref),
+         num_of_acc_rel=total-first(total),
+         premium=bundle_add_on-price_ref_rel,
+         premium_percent=(bundle_add_on-price_ref_rel)/bundle_price,
+         ind_firstbundle_noacc=first(total)==0)%>%
+  filter(bundle_index!=0)
+
+
+
+
+
+
+
+#Genarate a data frame "all"
+result2=data.frame()
+i=1
+while(i<=length(result$item_id))
+{
+  j=i+1
+  while(j<=length(result$item_id)&result$item_id[j]==result$item_id[i])
+  {
+    result2=rbind(result2,
+                  c(result$item_id[j],
+                    result$bundle_index[i],
+                    result$bundle_index[j],
+                    result$premium[j]-result$premium[i]))
+    j=j+1
+  }
+  i=i+1
+}  
+
+colnames(result2)=c("item_id","bundle_index1","bundle_index2","premrel")
+
+
+# result2=result2%>%
+#   left_join(Benchmark,by=c("item_id"="item_id"))%>%
+#   filter(bundle_index!=1)%>%
+#   mutate(premrel_perc=premrel/benchmark)
+
+result3<-result2%>%left_join(df.deltan,by=c("item_id"="item_id","bundle_index1"="bundle_index1","bundle_index2"="bundle_index2"))
+result3$diff[is.na(result3$diff)]=0
+
+
+#updateme
+#comment this chunk out#############
+result3=result3%>%
+  left_join(df.category,by=c("item_id"="item_id","bundle_index1"="bundle_index_1","bundle_index2"="bundle_index_2"))
+###################################
+
+
+df.bundleprice=result%>%
+  select(item_id,bundle_index,bundle_price)
+colnames(df.bundleprice)[colnames(df.bundleprice)=="bundle_price"]="bundle_price1"
+
+result3=result3%>%
+  left_join(df.bundleprice,by=c("item_id"="item_id","bundle_index1"="bundle_index"))
+
+colnames(df.bundleprice)[colnames(df.bundleprice)=="bundle_price1"]="bundle_price2"
+            
+result3=result3%>%
+  left_join(df.bundleprice,by=c("item_id"="item_id","bundle_index2"="bundle_index"))%>%
+  mutate(rel_cost_deln=bundle_price2-bundle_price1-premrel)
+#####Suyang#####
+
+result3<-result3%>%left_join(Priceofbundle0, by=c("item_id"="item_id"))
+result3<-result3%>%left_join(Priceofbundle1, by=c("item_id"="item_id"))
+result3<-result3%>%mutate(perc_premrel_relB0=premrel/bundle_price_0)%>%mutate(perc_premrel_relB1=premrel/bundle_price_1)
+
+
+### add share
+
+df_input<-df_input %>% select(item_id, amount, color_category_ind_18_55, bundle_index)
+#group the cells
+grouped_sales <- df_input %>% group_by(item_id) %>% summarize(item_sales=sum(amount))
+
+grouped_bundle <- df_input %>% group_by(item_id, bundle_index) %>% summarize(bundle_sales=sum(amount))
+grouped_f_sales <- df_input%>%group_by(item_id, color_category_ind_18_55) %>% filter(color_category_ind_18_55==1)%>%summarize(filterted_item_sales=sum(amount))
+
+grouped_f_bundle = df_input %>%group_by(item_id, bundle_index, color_category_ind_18_55)%>%filter(color_category_ind_18_55==1)%>%summarize(filtered_bundle_sales=sum(amount))
+#grouped_f_bundle =grouped_f_bundle%>%select(item_id, bundle_index,filtered_bundle_sales)
+
+#merge
+df1 = data.frame(grouped_sales)
+df2 = data.frame(grouped_bundle)
+s1 <- merge(df1,df2,by="item_id")
+df3 <- data.frame(grouped_f_sales%>%select(item_id,filterted_item_sales ))
+df4 <- data.frame(grouped_f_bundle%>%select(item_id, bundle_index,filtered_bundle_sales))
+s1 = left_join(s1, df3, by='item_id')
+s1 = left_join(s1, df4, by=c("item_id", "bundle_index"))
+#share function
+count<-function(x){
+  return(x['bundle_sales'] / x['item_sales'])
+}
+
+f_count<-function(x){
+  return(x['filtered_bundle_sales'] / x['filterted_item_sales'])
+}
+#counting share
+s1['share'] <- count(s1)
+s1['filtered_item_share'] <- f_count(s1)
+# s1
+s1[is.na(s1)]<-"0"
+s1$bundle_index<- as.numeric(s1$bundle_index)
+s1$filtered_item_share<-as.numeric(s1$filtered_item_share)
+
+result3<-result3%>%left_join(s1, by=c("item_id"="item_id", "bundle_index2"="bundle_index"), copy=TRUE)
+result6<-result3%>%left_join(s1, by=c("item_id"="item_id", "bundle_index2"="bundle_index"), copy=TRUE)
+result6[is.na(result6)]<-"0"
+result<-result%>%left_join(s1, by=c("item_id"="item_id", "bundle_index"="bundle_index"), copy=TRUE)
+result_0<-result
+result_0$filtered_bundle_sales<-as.numeric(result_0$filtered_bundle_sales)
+result[is.na(result)]<-"0"
+
+
+
+#0. Relative to Bundle 0
+setwd("../output")
+outputfilename = paste(paste(camera_name,under_s,"relative_to_bundle_0",under_s,sep='') ,format(Sys.time(),"%Y%m%d"),".csv",sep='')
+write.csv(result,file=outputfilename)
+
+setwd("./0_relative_to_bundle_0")
+
+png(file="1_histogram_of_delta_n.png",bg="transparent")
+hist(result$num_of_acc_rel,main="histogram of delta n",xlab="delta n",breaks=20)
+dev.off()
+
+
+png(file="2_boxplot_delta_n_bundle_index.png",bg="transparent")
+boxplot(result$num_of_acc_rel~result$bundle_index,xlab="bundle index",ylab="delta n",main="delta n vs. bundle index")
+dev.off()
+
+
+png(file="3_histogram_of_prem-rel_b0_(2_column).png",bg="transparent")
+H <- hist(result$premium,breaks=1,plot=FALSE)
+H$density <- with(H, 100 * density* diff(breaks)[1])
+labs <- paste(round(H$density), "%", sep="")
+plot(H, labels = labs, ylim=c(0, 5*max(H$density)),main="2 column histogram of prem rel b0",xlab="prem rel b0")
+dev.off()
+
+png(file="4_histogram_of_prem_rel_b0.png",bg="transparent")
+hist(result$premium,breaks=50,main="histogram of prem rel b0",xlab="prem rel b0")
+dev.off()
+
+png(file="5_boxplot_bundle_index_prem_rel_b0.png",bg="transparent")
+boxplot(result$premium~result$bundle_index,xlab="bundle_index",ylab="prem rel b0",main="Premium rel b0 vs. bundle index")
+dev.off()
+
+png(file="6_boxplot_delta_n_prem_rel_b0.png",bg="transparent")
+boxplot(result$premium~result$num_of_acc_rel,xlab="delta n",ylab="prem rel b0",main="Premium rel b0 vs. delta n")
+dev.off()
+
+##########################Suyang############################
+setwd("./graph_share")
+png(file="bundle_share_vs_bundle_index.png",bg="transparent")
+boxplot(result_0$share~result_0$bundle_index,xlab="bundle_index",ylab="bundle_share", main="bundle_index_vs_bundle_sales")
+dev.off()
+
+png(file="bundle_sale_vs_bundle_index.png", bg="transparent")
+boxplot(result_0$bundle_sales~result_0$bundle_index, xlab="bundle_index",ylab="bundle_sales", main="bundle_index_vs_bundle_sales")
+dev.off()
+
+
+setwd("../")
+
+setwd("../share_details")
+png(file="filtered_bundle_share_vs_bundle_index.png",bg="transparent")
+boxplot(result_0$filtered_item_share~result_0$bundle_index,xlab="bundle_index",ylab="filtered_bundle_share", main="bundle_index_vs_bundle_sales")
+dev.off()
+
+png(file="filtered_bundle_sale_vs_bundle_index.png", bg="transparent")
+boxplot(result_0$filtered_bundle_sales~result_0$bundle_index, xlab="bundle_index",ylab="filtered_bundle_sales", main="bundle_index_vs_bundle_sales")
+dev.off()
+
+setwd("../")
+outputfilename = paste(paste(camera_name,under_s,"all",under_s,sep='') ,format(Sys.time(),"%Y%m%d"),".csv",sep='')
+write.csv(result3,file = outputfilename)
+
+outputfilename = paste(paste(camera_name,under_s,"share_filtered",under_s,sep='') ,format(Sys.time(),"%Y%m%d"),".csv",sep='')
+write.csv(result6,file=outputfilename)
+
+outputfilename = paste(paste(camera_name,under_s,"onlyshare_filtered",under_s,sep='') ,format(Sys.time(),"%Y%m%d"),".csv",sep='')
+write.csv(s1,file=outputfilename)
+
+#fixme
+#df.error=result3%>%filter(diff==0)%>%select(item_id,bundle_index1,bundle_index2)
+#write.csv(df.error,file="error_item_id.csv")
+
+png(file="share_bundle_index.png")
+boxplot(s1$share~s1$bundle_index,xlab="bundle_index", ylab="share", main="share~bundle_index")
+dev.off()
+png(file="share_bundle_index_highlighted.png")
+boxplot(s1$share~s1$bundle_index,xlab="bundle_index", ylab="share", main="share~bundle_index", col=ifelse(s1$item_id==16831203027, "red", "white"))
+dev.off()
+
+
+
+
+
+#1. Relative to Bundle 1 
+result4=result3%>%
+  filter(bundle_index1==1)
+
+setwd("../output")
+outputfilename = paste(paste(camera_name,under_s,"relative_to_bundle_1",under_s,sep='') ,format(Sys.time(),"%Y%m%d"),".csv",sep='')
+write.csv(result4,file = outputfilename)
+
+
+setwd("./1_relative_to_bundle_1")
+
+png(file="1_histogram_of_delta_n.png",bg="transparent")
+hist(result4$diff,main="histogram of delta n",xlab="delta n",breaks=20)
+dev.off()
+
+
+png(file="2_boxplot_delta_n_bundle_index2.png",bg="transparent")
+boxplot(result4$diff~result4$bundle_index2,xlab="bundle index 2",ylab="delta n",main="delta n vs. bundle index 2")
+dev.off()
+
+png(file="3_histogram_of_prem_rel_to_bundle_1_2_col.png",bg="transparent")
+H <- hist(result4$premrel,breaks=1,plot=FALSE)
+H$density <- with(H, 100 * density* diff(breaks)[1])
+labs <- paste(round(H$density), "%", sep="")
+plot(H, labels = labs, ylim=c(0, 4*max(H$density)),main="2 column histogram of prem rel to bundle 1",xlab="prem rel to bundle 1")
+dev.off()
+
+png(file="4_histogram_of_prem_rel_to_bundle_1.png",bg="transparent")
+hist(result4$premrel,breaks=20,main="histogram of prem rel to bundle 1",xlab="prem rel to bundle 1")
+dev.off()
+
+png(file="5_histogram_of_prem_rel_to_bundle_1_zoom_in_.png",bg="transparent")
+hist(result4$premrel,breaks=50,xlim=c(-200,200),main="histogram of prem rel to bundle 1",xlab="prem rel to bundle 1")
+dev.off()
+
+png(file="6_boxplot_bundle_index_premrel1.png",bg="transparent")
+boxplot(result4$premrel~result4$bundle_index2,xlab="bundle_index",ylab="prem rel to bundle 1",main="Premium rel to bundle 1 vs. bundle index")
+dev.off()
+
+png(file="7_boxplot_delta_n_premrel1.png",bg="transparent")
+boxplot(result4$premrel~result4$diff,xlab="delta n",ylab="prem rel to bundle 1",main="Premium rel to bundle 1 vs. delta n")
+dev.off()
+
+result41=result4%>%select(BD,BJ,BU,CC,CD,DC,DK,DZ,EJ,FC,FD,FH,FP,FW,GJ,GP,GS,HJ,JB,JC,JD,JG,JQ,JS,JZ,LJ,LP,MO,MS,MZ,N.,ND,PZ,QC,QT,RG,SJ,SP,TZ,UV,WD,WJ,XB,XN,YD,YK,ZG)
+result42=cbind(rownames(as.data.frame(colSums(result41))),as.data.frame(colSums(result41)))
+colnames(result42)=c("Type_of_acc","Count")
+ggplot(result42)+geom_bar(aes(Type_of_acc,Count),stat="identity")+labs(title = "Barchart of Acc Types in Delta n")
+
+# png(file="9_1_histogram_of_num_of_fake_1")
+# result41=result4%>%
+#   group_by(bundle_index2,num_of_fake_1)%>%
+#   summarize(count=n())%>%
+#   filter(!is.na(num_of_fake_1))
+# ggplot(result41)+geom_bar(aes(num_of_fake_1,count), stat="identity")+labs(title = "Histogram of num_of_fake_1")
+# dev.off()
+# 
+# png(file="9_2_histogram_of_num_of_fake_1_facet_by_bundle_index2")
+# ggplot(result41)+geom_bar(aes(num_of_fake_1,count), stat="identity")+facet_wrap(~bundle_index2, nrow = 3) + labs(title = "Histogram of num_of_fake_1")
+# dev.off()
+# 
+# png(file="9_3")  ####################################fixme################################
+# 
+# png(file="9_histogram_of_num_of_fake_2")
+# result42=result4%>%
+#   group_by(num_of_fake_2)%>%
+#   summarize(count=n())%>%
+#   filter(!is.na(num_of_fake_2))
+# ggplot(result42)+geom_bar(aes(num_of_fake_2,count), stat="identity")+labs(title = "Histogram of num_of_fake_1")
+# dev.off()
+
+
+
+
+#2. Relative to Bundle 1(for B2~B5) and Bundle 5(for B6~B8)
+setwd("..")
+result5=result3%>%
+  filter((bundle_index1==1&bundle_index2<=5)|bundle_index1==5)
+
+outputfilename = paste(paste(camera_name,under_s,"relative_to_bundle_1_and_5",under_s,sep='') ,format(Sys.time(),"%Y%m%d"),".csv",sep='')
+write.csv(result5,file = outputfilename)
+
+setwd("./2_relative_to_bundle_1_and_5")
+
+png(file="1_histogram_of_delta_n.png",bg="transparent")
+hist(result5$diff,main="histogram of delta n",xlab="delta n",breaks=20)
+dev.off()
+
+png(file="2_boxplot_delta_n_bundle_index2.png",bg="transparent")
+boxplot(result5$diff~result5$bundle_index2,xlab="bundle index 2",ylab="delta n",main="delta n vs. bundle index 2")
+dev.off()
+
+png(file="3_histogram_of_prem_rel_to_bundle_1_and_5_2_col.png",bg="transparent")
+H <- hist(result5$premrel,breaks=1,plot=FALSE)
+H$density <- with(H, 100 * density* diff(breaks)[1])
+labs <- paste(round(H$density), "%", sep="")
+plot(H, labels = labs, ylim=c(0, 4*max(H$density)),main="2 column histogram of prem rel to bundle 1 and 5",xlab="prem rel to bundle 1 and 5")
+dev.off()
+
+png(file="4_histogram_of_prem_rel_to_bundle_1_and_5.png",bg="transparent")
+hist(result5$premrel,breaks=20,main="histogram of prem rel to bundle 1 and 5",xlab="prem rel to bundle 1 and 5")
+dev.off()
+
+png(file="5_boxplot_bundle_index_premrel1and5.png",bg="transparent")
+boxplot(result5$premrel~result5$bundle_index2,xlab="bundle_index",ylab="prem rel to bundle 1 and 5",main="Premium rel to bundle 1 and 5 vs. bundle index")
+dev.off()
+
+png(file="6_boxplot_delta_n_premrel1and5.png",bg="transparent")
+boxplot(result5$premrel~result5$diff,xlab="delta n",ylab="prem rel to bundle 1 and 5",main="Premium rel to bundle 1 and 5 vs. delta n")
+dev.off()
+
+
+#3. Adjacent
+setwd("..")
+result61=result3%>%
+  filter(bundle_index1==bundle_index2-1)
+result6=result61%>%
+  left_join(regression[,-1],by=c("item_id"="ItemID","bundle_index2"="index"))
+
+outputfilename = paste(paste(camera_name,under_s,"adjacent",under_s,sep='') ,format(Sys.time(),"%Y%m%d"),".csv",sep='')
+write.csv(result6,file = outputfilename)
+
+setwd("./3_adjacent")
+png(file="1_histogram_of_delta_n.png",bg="transparent")
+hist(result6$diff,main="histogram of delta n",xlab="delta n",col="red",breaks=0:12)
+dev.off()
+
+png(file="2_boxplot_delta_n_bundle_index2.png",bg="transparent")
+boxplot(result6$diff~result6$bundle_index2,xlab="bundle index 2",ylab="delta n",main="delta n vs. bundle index 2")
+dev.off()
+
+png(file="3_histogram_of_prem_adjacent_2_column.png",bg="transparent")
+H <- hist(result6$premrel,breaks=1,plot=FALSE)
+H$density <- with(H, 100 * density* diff(breaks)[1])
+labs <- paste(round(H$density), "%", sep="")
+plot(H, labels = labs, ylim=c(0, 4*max(H$density)),main="2 column histogram of prem adjacent",xlab="prem adjacent")
+dev.off()
+
+png(file="4_histogram_of_prem_adjacent.png",bg="transparent")
+hist(result6$premrel,breaks=50,main="histogram of prem adjacent",xlab="prem adjacent")
+dev.off()
+
+png(file="5_histogram_of_prem_adjacent_zoom_in.png",bg="transparent")
+hist(result6$premrel,breaks=100,xlim=c(-200,200),main="histogram of prem adjacent",xlab="prem adjacent")
+dev.off()
+
+png(file="6_boxplot_bundle_index2_prem_adjacent.png",bg="transparent")
+boxplot(result6$premrel~result6$bundle_index2,xlab="bundle_index2",ylab="prem adjacent",main="Premium adjacent vs. bundle index")
+dev.off()
+
+png(file="7_boxplot_delta_n_prem_adjacent.png",bg="transparent")
+boxplot(result6$premrel~result6$diff,xlab="delta n",ylab="prem adjacent",main="Premium adjacent vs. delta n")
+dev.off()
+
+
+

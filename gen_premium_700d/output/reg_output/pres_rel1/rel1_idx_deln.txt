@@ -1,0 +1,19 @@
+	(1)	(2)	(3)
+VARIABLES	bundle_index2	bundle_index2	bundle_index2
+			
+diff	0.597***	0.640***	0.691***
+	(0.0360)	(0.0403)	(0.0574)
+cc	-0.364**	-0.442***	-0.502***
+	(0.154)	(0.154)	(0.169)
+uv		-1.286***	-1.303***
+		(0.377)	(0.378)
+xb			-0.792**
+			(0.380)
+Constant	1.407***	1.544***	1.547***
+	(0.190)	(0.178)	(0.176)
+			
+Observations	352	352	352
+R-squared	0.576	0.592	0.599
+Number of item_id	67	67	67
+Robust standard errors in parentheses			
+*** p<0.01, ** p<0.05, * p<0.1			

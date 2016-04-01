@@ -1,0 +1,15 @@
+	(1)
+VARIABLES	premium
+	
+num_of_acc_rel	-12.10
+	(8.690)
+bundle_index	41.27***
+	(6.350)
+Constant	44.18
+	(104.3)
+	
+Observations	421
+Number of item_id	69
+R-squared	0.362
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

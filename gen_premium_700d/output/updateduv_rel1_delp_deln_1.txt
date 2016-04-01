@@ -1,0 +1,17 @@
+	(1)	(2)	(3)	(4)
+VARIABLES	Premium rel B1	Premium rel B1	Premium rel B1	Premium rel B1
+				
+diff	16.48***	-5.684	-24.07**	-9.898
+	(4.319)	(5.159)	(11.60)	(7.512)
+bundle_index2		38.24***	54.27***	34.51***
+		(4.927)	(13.03)	(7.771)
+interact_diff_bundle_index				0.786
+				(1.248)
+Constant	18.22	-27.47	-6.280	-9.126
+	(24.30)	(25.11)	(46.76)	(33.33)
+				
+Observations	352	352	158	352
+R-squared	0.132	0.310	0.248	0.312
+Number of item_id	67	67	50	67
+Robust standard errors in parentheses				
+*** p<0.01, ** p<0.05, * p<0.1				

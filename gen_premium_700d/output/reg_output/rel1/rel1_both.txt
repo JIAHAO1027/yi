@@ -1,0 +1,21 @@
+	(1)
+VARIABLES	premrel
+	
+diff	6.061
+	(6.628)
+bundle_index2	55.60***
+	(5.585)
+rel_cost_deln	-0.650***
+	(0.168)
+ind_cc	-2.011
+	(14.45)
+ind_uv	50.14
+	(40.31)
+Constant	-84.57***
+	(22.51)
+	
+Observations	352
+Number of item_id	67
+R-squared	0.435
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

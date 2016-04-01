@@ -1,0 +1,71 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.9.30)  14 MAR 2016 16:39
+entering extended mode
+**C:/Users/xin_chen/Dropbox/urap_programming/yi/gen_premium_700d/output/rel1+5_
+deltap_deltan.tex
+
+(C:/Users/xin_chen/Dropbox/urap_programming/yi/gen_premium_700d/output/rel1+5_d
+eltap_deltan.tex
+LaTeX2e <2015/01/01> patch level 2
+Babel <3.9m> and hyphenation patterns for 69 languages loaded.
+("C:\Program Files\miktex\tex\latex\base\article.cls"
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+("C:\Program Files\miktex\tex\latex\base\size10.clo"
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(rel1+5_deltap_deltan.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 4.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 4.
+
+Overfull \hbox (53.29521pt too wide) in paragraph at lines 4--21
+[][] 
+ []
+
+[1
+
+
+
+pdfTeX warning: pdflatex.EXE (file pdftex.map): cannot open font map file
+] (rel1+5_deltap_deltan.aux) ) 
+Here is how much of TeX's memory you used:
+ 206 strings out of 493673
+ 2466 string characters out of 3145586
+ 56455 words of memory out of 3000000
+ 3639 multiletter control sequences out of 15000+200000
+ 3640 words of font info for 14 fonts, out of 3000000 for 9000
+ 1025 hyphenation exceptions out of 8191
+ 23i,7n,17p,263b,110s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\xin_chen\AppData\Local\MiKTeX\2.9\font
+s\pk\ljfour\public\cm\dpi600\cmmi10.pk> <C:\Users\xin_chen\AppData\Local\MiKTeX
+\2.9\fonts\pk\ljfour\public\cm\dpi600\cmr10.pk>
+Output written on rel1+5_deltap_deltan.pdf (1 page, 17660 bytes).
+PDF statistics:
+ 62 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,0 +1,13 @@
+	(1)
+VARIABLES	premrel
+	
+diff	7.381***
+	(2.786)
+Constant	42.59***
+	(13.85)
+	
+Observations	352
+Number of item_id	67
+R-squared	0.024
+Standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

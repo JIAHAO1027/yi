@@ -1,0 +1,85 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\adj\log_rel1.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}15 Mar 2016, 16:26:57
+{txt}
+{com}. **updated
+. 
+. 
+. 
+. xtset item_id
+{txt}{col 8}panel variable:  {res}item_id (unbalanced)
+{txt}
+{com}. xtreg premrel diff, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.0537                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0733                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.0101                                        {txt}max = {res}        7
+
+                                                {txt}F({res}1{txt},{res}66{txt})            = {res}     8.54
+{txt}corr(u_i, Xb)  = {res}-0.3322                        {txt}Prob > F           =    {res}0.0048
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     premrel{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}diff {c |}{col 14}{res}{space 2}-12.50905{col 26}{space 2} 4.280284{col 37}{space 1}   -2.92{col 46}{space 3}0.005{col 54}{space 4}-21.05492{col 67}{space 3}-3.963191
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 80.68547{col 26}{space 2} 14.72564{col 37}{space 1}    5.48{col 46}{space 3}0.000{col 54}{space 4} 51.28479{col 67}{space 3} 110.0861
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 52.325688
+     {txt}sigma_e {c |} {res} 94.663942
+         {txt}rho {c |} {res} .23403039{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}.         outreg2 using rel1_delp_deln_try.tex, replace //ctitle(\\Premium rel B1) //label
+{txt}{stata `"shellout using `"rel1_delp_deln_try.tex"'"':rel1_delp_deln_try.tex}
+{browse `"C:\Users\xin_chen\Dropbox\urap_programming\yi\gen_premium_700d\output\reg_output\adj"' :dir}{com} : {txt}{stata `"seeout using "rel1_delp_deln_try.txt""':seeout}
+
+{com}.         xtreg premrel diff cc uv, fe vce(cl item_id)
+{err}cc ambiguous abbreviation
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "C:\Users\xin_chen\AppData\Local\Temp\STD04000000.tmp"
+{txt}
+{com}. xtset item_id
+{txt}{col 8}panel variable:  {res}item_id (unbalanced)
+{txt}
+{com}. xtreg premrel diff, fe vce(cl item_id)
+
+{txt}Fixed-effects (within) regression               Number of obs      = {res}      352
+{txt}Group variable: {res}item_id                         {txt}Number of groups   = {res}       67
+
+{txt}R-sq:  within  = {res}0.0537                         {txt}Obs per group: min = {res}        1
+{txt}       between = {res}0.0733                                        {txt}avg = {res}      5.3
+{txt}       overall = {res}0.0101                                        {txt}max = {res}        7
+
+                                                {txt}F({res}1{txt},{res}66{txt})            = {res}     8.54
+{txt}corr(u_i, Xb)  = {res}-0.3322                        {txt}Prob > F           =    {res}0.0048
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:67} clusters in item_id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     premrel{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}diff {c |}{col 14}{res}{space 2}-12.50905{col 26}{space 2} 4.280284{col 37}{space 1}   -2.92{col 46}{space 3}0.005{col 54}{space 4}-21.05492{col 67}{space 3}-3.963191
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 80.68547{col 26}{space 2} 14.72564{col 37}{space 1}    5.48{col 46}{space 3}0.000{col 54}{space 4} 51.28479{col 67}{space 3} 110.0861
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 52.325688
+     {txt}sigma_e {c |} {res} 94.663942
+         {txt}rho {c |} {res} .23403039{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}.         *outreg2 using rel1_delp_deln_try.tex, replace //ctitle(\\Premium rel B1) //label
+.         sjlog using rel1_delp_deln_try, replace
+{smcl}
+{com}{sf}{ul off}

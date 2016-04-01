@@ -1,0 +1,19 @@
+	(1)	(2)	(3)
+VARIABLES	rel_cost_deln	rel_cost_deln	rel_cost_deln
+			
+diff	38.64***	40.16***	41.15***
+	(3.256)	(3.751)	(4.366)
+ind_cc	-57.34***	-60.35***	-61.61***
+	(10.48)	(10.58)	(11.52)
+ind_uv		-42.51*	-43.52*
+		(25.07)	(25.61)
+ind_xb			-13.95
+			(31.17)
+Constant	-19.75	-15.57	-15.70
+	(14.93)	(13.09)	(13.25)
+			
+Observations	352	352	352
+R-squared	0.669	0.675	0.675
+Number of item_id	67	67	67
+Robust standard errors in parentheses			
+*** p<0.01, ** p<0.05, * p<0.1			

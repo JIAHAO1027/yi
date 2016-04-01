@@ -1,0 +1,13 @@
+	(1)
+VARIABLES	rel B1 and B5 Model 1
+	
+diff	-11.77***
+	(3.876)
+Constant	77.71***
+	(13.17)
+	
+Observations	357
+Number of item_id	68
+R-squared	0.050
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

@@ -1,0 +1,13 @@
+	(1)
+VARIABLES	Premium rel B1
+	
+bundle_index2	0.987***
+	(0.0818)
+Constant	1.229***
+	(0.365)
+	
+Observations	352
+Number of item_id	67
+R-squared	0.572
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	
