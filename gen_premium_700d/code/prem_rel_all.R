@@ -11,8 +11,8 @@ library(scales)
 
 ####################################################fixme
 #setwd("C:/Users/xin_chen/Dropbox/urap_programming/yi/gen_premium_700d")
-setwd("F:\\Dropbox\\urap_programming\\yi\\gen_premium_700d")
-#setwd("/Users/suyanglu/Dropbox/urap_programming/yi/gen_premium_700d")
+#setwd("F:\\Dropbox\\urap_programming\\yi\\gen_premium_700d")
+setwd("/Users/suyanglu/Dropbox/urap_programming/yi/gen_premium_700d")
 
 #updateme
 filename_list="lst_700D_Yi_Feb222016_giftindex_price_corrected_juexiao_0306.csv"
@@ -77,6 +77,12 @@ colnames(df.deltan)=c("item_id","bundle_index1","bundle_index2","diff")
 Benchmark=Camera%>%
   group_by(item_id)%>%
   summarise(benchmark=first(bundle_price))
+
+#######Suyang#########
+Priceofbundle0<-Camera%>%select(item_id, bundle_index, bundle_price)%>%filter(bundle_index==0)%>%select(-bundle_index)
+colnames(Priceofbundle0)[colnames(Priceofbundle0)=="bundle_price"] <- "bundle_price_0"
+Priceofbundle1<-Camera%>%select(item_id, bundle_index, bundle_price)%>%filter(bundle_index==1)%>%select(-bundle_index)
+colnames(Priceofbundle1)[colnames(Priceofbundle1)=="bundle_price"] <- "bundle_price_1"
 
 # Set all "unknown" or lost Price = 0
 for(i in 1:length(Price$Avg..Price.Esitimate))
@@ -174,6 +180,13 @@ result3=result3%>%
   mutate(rel_cost_deln=bundle_price2-bundle_price1-premrel)
 
 
+#####Suyang#####
+
+result3<-result3%>%left_join(Priceofbundle0, by=c("item_id"="item_id"))
+result3<-result3%>%left_join(Priceofbundle1, by=c("item_id"="item_id"))
+result3<-result3%>%mutate(perc_premrel_relB0=premrel/bundle_price_0)%>%mutate(perc_premrel_relB1=premrel/bundle_price_1)
+
+
 ### add share
 
 df_input<-df_input %>% select(item_id, amount, color_category_ind_18_55, bundle_index)
@@ -205,21 +218,84 @@ f_count<-function(x){
 #counting share
 s1['share'] <- count(s1)
 s1['filtered_item_share'] <- f_count(s1)
+s11<-s1%>%select(item_id, item_sales)
+s11<-unique(s11)
+s12<-s1%>%select(-item_sales)
+s12<-unique(s12)
 # s1
-s1[is.na(s1)]<-"0"
-s1$bundle_index<- as.numeric(s1$bundle_index)
-result3<-result3%>%left_join(s1, by=c("item_id"="item_id", "bundle_index2"="bundle_index"), copy=TRUE)
-result6<-result3%>%left_join(s1, by=c("item_id"="item_id", "bundle_index2"="bundle_index"), copy=TRUE)
-result6[is.na(result6)]<-"0"
-result_0<-result%>%left_join(s1, by=c("item_id"="item_id", "bundle_index"="bundle_index"), copy=TRUE)
-result_0[is.na(result_0)]<-"0"
+
+n0<-s1 %>%filter(bundle_index==0)%>%summarise(Bundle0=sum(share))
+n1<-s1 %>% filter(bundle_index==1)%>%summarise(B1=sum(share))
+n2<-s1 %>% filter(bundle_index==2)%>%summarise(B2=sum(share))
+n3<-s1 %>% filter(bundle_index==3)%>%summarise(B3=sum(share))
+n4<-s1 %>%filter(bundle_index== 4)%>%summarise(B4=sum(share))
+n5<-s1 %>% filter(bundle_index==5)%>%summarise(B5=sum(share))
+n6<-s1 %>% filter(bundle_index==6)%>%summarise(B6=sum(share))
+n7<-s1 %>% filter(bundle_index==7)%>%summarise(B7=sum(share))
+n8<-s1 %>% filter(bundle_index==8)%>%summarise(B8=sum(share))
+sum<-sum(n0,n1,n2,n3,n4,n5,n6,n7,n8)
+Bundle0<-n0/sum
+B1<-n1/sum
+B2<-n2/sum
+B3<-n3/sum
+B4<-n4/sum
+B5<-n5/sum
+B6<-n6/sum
+B7<-n7/sum
+B8<-n8/sum
+
+other0_1_8<-data.frame(Bundle0, Bundle1to8=sum(B1,B2,B3,B4,B5,B6,B7,B8))
+other0_1_8<-other0_1_8%>%gather(bundle, value)
+other0_1_2<-data.frame(B1, B2, B3,B4,B5,B6,B7,B8)
+other0_1_2<-other0_1_2%>%gather(bundle, value)
+
+
+setwd("../output")
+setwd("./0_relative_to_bundle_0")
+setwd("./graph_share")
+
+png(file="Avg_Bundle_Share1.png")
+other0_1_8$value <- 100*other0_1_8$value
+p<-barplot(other0_1_8$value, main="Bundle Share", col= "white", ylim=c(0,70), xlab="Bundle Index", ylab="Bundle Share", cex.lab=1.6, cex.axis=1.1, cex.main=2, cex.sub=1)
+labs <- paste(round(other0_1_8$value, 2), "%", sep="")
+text(x = p, y = other0_1_8$value, label =labs, pos = 3, cex = 1)
+axis(1, at=p, labels=other0_1_8$bundle, tick=FALSE, cex.axis = 1)
+dev.off()
+
+png(file="Avg_Bundle_Share2.png")                        
+other0_1_2$value<-round(other0_1_2$value, 4)
+other0_1_2$value <- 100*other0_1_2$value
+q<-barplot(other0_1_2$value, main="Ave Bundle Share", col= "white", ylim=c(0,20), xlab="Bundle Index", ylab="Average Share", cex.lab=1.6, cex.axis=1.1, cex.main=2, cex.sub=1)
+labs <- paste(round(other0_1_2$value, 2), "%", sep="")
+text(x = q, y = other0_1_2$value, label =labs, pos = 3, cex = 1)
+axis(1, at=q, labels=other0_1_2$bundle, tick=FALSE)
+dev.off()
+
+
+
+
+s12$bundle_index<- as.numeric(s1$bundle_index)
+s12$filtered_item_share<-as.numeric(s1$filtered_item_share)
+
+result3<-result3%>%left_join(s11, by=c("item_id"="item_id"), copy=FALSE)
+result3<-result3%>%left_join(s12, by=c("item_id"="item_id", "bundle_index2"="bundle_index"), copy=FALSE)
+result3<-unique(result3)
+result3<-result3%>%ifelse(is.na(item_sales),item_sales==".", item_sales==item_sales)
+result3[is.na(result3)]<-"0"
+result6<-result3
+result<-result%>%left_join(s11, by=c("item_id"="item_id"), copy=FALSE)%>%left_join(s12, by=c("item_id"="item_id", "bundle_index"="bundle_index"), copy=FALSE)
+result_0<-result
+result_0$filtered_bundle_sales<-as.numeric(result_0$filtered_bundle_sales)
+result[is.na(result)]<-"0"
+
 
 
 
 
 #0. Relative to Bundle 0
 
-setwd("../output")
+setwd("../")
+setwd("../")
 outputfilename = paste(paste(camera_name,under_s,"relative_to_bundle_0",under_s,sep='') ,format(Sys.time(),"%Y%m%d"),".csv",sep='')
 write.csv(result_0,file=outputfilename)
 
@@ -342,7 +418,26 @@ png(file="8_3_barchart_of_type_of_acc_important_in_different_bundle_index_rel_to
 ggplot(result03)+geom_bar(aes(x = reorder(Type_of_acc,desc(Count)),y=Count),stat="identity")+labs(title = "Barchart of Important Acc Types rel to B0",x="Type of Acc")+facet_wrap(~bundle_index, nrow =3)+theme(text = element_text(size=25),axis.text=element_text(size=15))
 dev.off()
 
+##########################Suyang############################
+setwd("./graph_share")
+png(file="bundle_index_vs_bundle_share.png",bg="transparent")
+boxplot(result_0$share~result_0$bundle_index,xlab="Bundle Index",ylab="Bundle Share", main="Bundle Index vs Bundle Sales", cex.lab=1.6, cex.axis=1.1, cex.main=2, cex.sub=1)
+dev.off()
 
+png(file="bundle_index_vs_bundle_sale.png", bg="transparent")
+boxplot(result_0$bundle_sales~result_0$bundle_index, xlab="Bundle Index",ylab="Bundle Sales", main="Bundle Index vs Bundle Sales", cex.lab=1.6, cex.axis=1.1, cex.main=2, cex.sub=1)
+dev.off()
+
+
+png(file="filtered_bundle_share_vs_bundle_index.png",bg="transparent")
+boxplot(result_0$filtered_item_share~result_0$bundle_index,xlab="Bundle Index",ylab="Filtered Bundle Share", main="Bundle Index vs Bundle Sales", cex.lab=1.6, cex.axis=1.1, cex.main=2, cex.sub=1)
+dev.off()
+
+png(file="filtered_bundle_sale_vs_bundle_index.png", bg="transparent")
+boxplot(result_0$filtered_bundle_sales~result_0$bundle_index, xlab="Bundle Index",ylab="Filtered Bundle Sales", main="Bundle Index vs Bundle Sales", cex.lab=1.6, cex.axis=1.1, cex.main=2, cex.sub=1)
+dev.off()
+
+setwd("../")
 setwd("../")
 outputfilename = paste(paste(camera_name,under_s,"all",under_s,sep='') ,format(Sys.time(),"%Y%m%d"),".csv",sep='')
 write.csv(result3,file = outputfilename)
