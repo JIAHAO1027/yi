@@ -11,8 +11,8 @@ library(scales)
 
 ####################################################fixme
 #setwd("C:/Users/xin_chen/Dropbox/urap_programming/yi/gen_premium_700d")
-#setwd("F:\\Dropbox\\urap_programming\\yi\\gen_premium_700d")
-setwd("/Users/suyanglu/Dropbox/urap_programming/yi/gen_premium_700d")
+setwd("F:\\Dropbox\\urap_programming\\yi\\gen_premium_700d")
+#setwd("/Users/suyanglu/Dropbox/urap_programming/yi/gen_premium_700d")
 
 #updateme
 filename_list="lst_700D_Yi_Feb222016_giftindex_price_corrected_juexiao_0306.csv"
@@ -280,8 +280,12 @@ s12$filtered_item_share<-as.numeric(s1$filtered_item_share)
 result3<-result3%>%left_join(s11, by=c("item_id"="item_id"), copy=FALSE)
 result3<-result3%>%left_join(s12, by=c("item_id"="item_id", "bundle_index2"="bundle_index"), copy=FALSE)
 result3<-unique(result3)
-result3<-result3%>%ifelse(is.na(item_sales),item_sales==".", item_sales==item_sales)
-result3[is.na(result3)]<-"0"
+#result3<-result3%>%ifelse(is.na(item_sales),item_sales==".", item_sales==item_sales)
+
+############################fixsuyang#########################
+result3$bundle_sales[is.na(result3$bundle_sales)]<-0
+##############################################################
+
 result6<-result3
 result<-result%>%left_join(s11, by=c("item_id"="item_id"), copy=FALSE)%>%left_join(s12, by=c("item_id"="item_id", "bundle_index"="bundle_index"), copy=FALSE)
 result_0<-result
